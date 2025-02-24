@@ -1,0 +1,462 @@
+/* Kontejner stránky */
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+}
+
+/* Horní navigační lišta */
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #343a40; /* Tmavě šedá */
+  color: white;
+  padding: 10px 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  height: 60px;
+}
+
+/* Obsah stránky pod navbar */
+.content {
+  margin-top: 60px;
+  padding: 20px;
+  overflow-y: auto;
+  flex-grow: 1;
+  background-color: #f8f9fa;
+}
+
+/* Dashboard přepneme na grid */
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Styl jednotlivých tabulek */
+.table {
+  flex: 1;
+  min-width: 250px;
+  max-width: 350px;
+  padding: 20px;
+  background-color: #ffffff; /* Bílá pozadí pro tabulky */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  height: 550px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: all 0.3s ease;
+}
+
+.table:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Nastavení pro hlavičku tabulky */
+.table-header {
+  background-color: #007bff; /* Modrá pro zvýraznění */
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  border-bottom: 2px solid #0056b3; /* Tmavší modrá pro oddělení */
+  border-radius: 5px 5px 0 0;
+  margin-bottom: 10px;
+}
+
+/* Obsah tabulky (úkoly) */
+.table-content {
+  display: flex;
+  flex-direction: column-reverse; /* Nové úkoly budou nahoře */
+  padding: 10px;
+  text-align: left;
+  gap: 5px; /* Mezera mezi úkoly */
+  max-height: 500px; /* Nastaví pevnou výšku */
+  overflow-y: auto;  /* Přidá scrollovací lištu, pokud je úkolů moc */
+}
+
+.table-content div {
+  margin-bottom: 5px;
+}
+
+.table-content p {
+  color: #555; /* Temně šedý text pro lepší čitelnost */
+}
+
+/* Odkazy na stránky vlevo */
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2em;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+  color: #ccc; /* Světle šedá pro zvýraznění při hover */
+}
+
+/* Název stránky ve středu */
+.site-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.site-title h1 {
+  margin: 0;
+  font-size: 1.8em;
+  color: white;
+}
+
+/* Profil uživatele vpravo */
+.user-info-container {
+  background-color: rgba(188, 188, 188, 0.9); /* Poloprůhledná šedá (80% neprůhlednosti) */
+  padding: 15px;
+  border-radius: 15px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.user-info-title {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.user-info-content {
+  font-size: 1em;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.user-info-content strong {
+  color: #333;
+  
+}
+
+.user-icon {
+  font-size: 2.5em;
+  margin-right: 10px;
+  vertical-align: middle;
+  color: #495372;
+}
+
+
+/* Background overlay */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Jemný stín pozadí */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Zajištění, že modal bude nad ostatním obsahem */
+}
+
+/* Modal content */
+.modal-content {
+  background-color: white;
+  padding: 1px; 
+  border-radius: 12px; 
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
+  width: 100%;
+  max-width: 800px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  transition: transform 0.3s ease-out; 
+  animation: modalFadeIn 0.4s ease-out; 
+}
+
+/* Modal heading */
+.modal-content h2 {
+  font-size: 24px; /* Větší písmo pro nadpis */
+  color: #333; /* Tmavší barva pro nadpis */
+  margin-bottom: 18px; 
+  text-align: center; 
+  font-weight: 600;
+}
+
+/* Form input fields */
+.modal-content input, .modal-content textarea, .modal-content select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px; /* Zaoblení okrajů vstupních polí */
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.modal-content input:focus, .modal-content textarea:focus, .modal-content select:focus {
+  border-color: #4ca84f;
+  outline: none;
+}
+
+/* Buttons styling */
+.modal-content .form-actions button {
+  padding: 12px 24px;
+  margin: 10px 15px; 
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+
+.modal-content .form-actions button[type="submit"] {
+  background-color: #4ca84f;
+  color: white;
+}
+
+.modal-content .form-actions button[type="submit"]:hover {
+  background-color: #45a049; /* Tmavší zelená při hoveru */
+}
+
+.modal-content .form-actions button[type="button"] {
+  background-color: #ccc; /* Šedá pro zrušení */
+  color: #333;
+}
+
+.modal-content .form-actions button[type="button"]:hover {
+  background-color: #bbb; /* Tmavší šedá při hoveru */
+}
+
+
+.modal-content .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer; 
+}
+
+.modal-content .close-btn:hover {
+  color: #4ca84f; /* Zelená barva pro hover */
+}
+
+/* Animation for modal fade-in */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+/* Styly pro formuláře */
+.task-form-table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.task-form-table td {
+  padding: 10px;
+}
+
+.task-form-table label {
+  font-weight: bold;
+  display: block; /* Zajistí, že labely se nebudou tlačit k inputu */
+  margin-bottom: 5px;
+}
+
+.task-form-table input,
+.task-form-table select,
+.task-form-table textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px; /* Větší mezera mezi políčky pro lepší čitelnost */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1em; /* Zvýší čitelnost textu */
+}
+
+.task-form-table textarea {
+  resize: vertical; /* Umožní zvětšení výšky textarea */
+  min-height: 80px; /* Nastaví minimální výšku pro textarea */
+}
+
+/* Akční tlačítka */
+.form-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-actions button {
+  padding: 10px 20px;
+  background-color: #007bff; /* Modrá pro tlačítka */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  min-width: 100px; /* Ujistí se, že tlačítka budou dostatečně široká */
+}
+
+.form-actions button:hover {
+  background-color: #0056b3; /* Tmavší modrá pro hover */
+}
+
+
+/* Responzivní design pro menší zařízení */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+    gap: 10px;
+    
+  }
+
+  .table {
+    max-width: 100%;
+    min-width: auto;
+  }
+
+  .site-title h1 {
+    font-size: 1.5em;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .top-navbar {
+    flex-direction: column;
+    height: auto;
+  }
+}
+.task-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px; /* Menší výplň */
+  margin: 2px 0; /* Menší mezery mezi kartami */
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.task-card h3 {
+  margin: 0 0 0.2px; /* Menší mezera pod názvem */
+  font-size: 1.0rem; /* Menší velikost písma */
+  display: inline-block;  /* Zajišťuje, že text a tlačítko budou vedle sebe */
+}
+
+.task-card p {
+  margin: 2px 0; /* Menší mezery mezi textovými řádky */
+  font-size: 0.5rem; /* Menší velikost písma */
+  line-height: 0.5; /* Menší výška řádku */
+}
+.delete-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: transparent;
+  color: red;
+  font-size: 16px; /* Velikost křížku */
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 18px; /* Vertikálně zarovnané */
+}
+
+.delete-btn:hover {
+  color: rgb(160, 5, 5);
+  background-color: #e1dfdf;
+}
+.add-task-btn {
+  background-color: #29522b; /* Zelená barva */
+  color: white;
+  font-size: 15px; /* Velikost znaku + */
+  width: 30px; /* Šířka tlačítka */
+  height: 30px; /* Výška tlačítka */
+  border-radius: 50%; /* Kruh */
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  top: 10px; /* Vzdálenost od horního okraje */
+  right: 10px; /* Vzdálenost od pravého okraje */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Jemný stín pro hloubku */
+  transition: all 0.3s ease; /* Plynulý přechod pro efekt hover */
+  margin-left: 200px;
+  margin-top: -20px;
+}
+
+.add-task-btn:hover {
+  background-color: #1a371c; /* Tmavší zelená při najetí */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Silnější stín při hoveru */
+}
+
+.add-task-btn:focus {
+  outline: none; /* Odstranění rámečku při kliknutí */
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.6); /* Zvýraznění tlačítka po kliknutí */
+}
+
+.status-controls {
+  display: flex;
+  justify-content: space-between; /* Tlačítka na krajích */
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.status-controls button {
+  padding: 2.5px 5px; /* Poloviční padding */
+  font-size: 0.8rem; /* Zmenšení textu */
+  background-color: #7b7b7b;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.status-controls button:disabled {
+  background-color: #7b7b7b;
+  cursor: not-allowed;
+}
+
+
+
+
+

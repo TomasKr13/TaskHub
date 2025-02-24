@@ -1,0 +1,78 @@
+/* Globální styly pro pozadí a zarovnání */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(120deg, #6a11cb, #2575fc); /* Gradientní pozadí */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+/* Hlavní nadpis pro aplikaci */
+.login-container h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Styl pro formulář */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Styl pro vstupní pole */
+input {
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #6a11cb; /* Při zaostření mění barvu rámečku */
+}
+
+/* Tlačítko pro přihlášení */
+button {
+    padding: 12px;
+    background-color: #6a11cb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2575fc; /* Změní barvu při najetí */
+}
+
+/* Odkaz pro registraci */
+.login-container a {
+    color: #6a11cb;
+    font-size: 0.9rem;
+    text-decoration: none;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.login-container a:hover {
+    text-decoration: underline;
+}

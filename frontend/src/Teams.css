@@ -1,0 +1,297 @@
+/* Global Styles */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Teams Container */
+.teams-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Přidáno pro vertikální centrování */
+  padding: 40px;
+  background-color: #ffffff;
+  min-height: 100vh;
+  margin-top: 60px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 90%; /* Zvýšení šířky na 90% obrazovky */
+  max-width: 1400px; /* Maximální šířka pro lepší vzhled */
+  margin-left: auto; /* Horizontální centrování */
+  margin-right: auto; /* Horizontální centrování */
+}
+
+
+
+
+
+/* Team Page Layout */
+.team-page {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  gap: 20px;
+  justify-content: space-between; /* Zajištění správného umístění */
+  margin-top: 30px;
+}
+
+/* Shared Card Style */
+.card {
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-height: 500px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Section Headings */
+.section-heading {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #007bff;
+  text-align: center;
+}
+
+/* Real-Time Chat */
+.real-time-chat {
+  flex: 1;
+  min-width: 300px;
+}
+
+.real-time-chat h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #007bff;
+}
+
+.chat-messages {
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Team Timeline */
+.team-timeline {
+  flex: 2;
+  min-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Zarovná obsah na střed */
+}
+
+.timeline-weeks {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.week {
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+.week::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #ccc;
+  transform: translateY(-50%);
+}
+
+.week h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #0056b3;
+}
+
+/* Days inside timeline */
+.timeline-days {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.day {
+  flex: 1;
+  min-width: 130px;
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.day:hover {
+  transform: scale(1.05);
+  background-color: #f0f8ff;
+}
+
+.day .day-title {
+  font-size: 16px;
+  color: #007bff;
+}
+
+.day .day-tasks {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
+
+/* Team Members */
+.team-members {
+  flex: 1;
+  min-width: 300px;
+  text-align: center;
+  align-self: flex-start; /* Zarovnání nahoru */
+  margin-left: auto; /* Posunutí úplně doprava */
+}
+
+.team-members h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #007bff;
+}
+
+.team-members ul {
+  list-style: none;
+  padding: 0;
+}
+
+.team-members li {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.team-members li:last-child {
+  border-bottom: none;
+}
+
+/* Buttons */
+.team-button {
+  display: inline-block;
+  padding: 12px 18px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+.team-button:hover {
+  background: linear-gradient(135deg, #0056b3, #004494);
+  transform: translateY(-2px);
+}
+
+.add-team-button, .back-button {
+  padding: 12px 20px;
+  background-color: #28a745;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.add-team-button:hover, .back-button:hover {
+  background-color: #218838;
+}
+
+/* Modal Overlay - Fix for Centering */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Window */
+.modal {
+  background-color: white;
+  width: 100vw;  /* 90% šířky obrazovky */
+  height: 90vh; /* 90% výšky obrazovky */
+  max-width: 1500px; /* Maximální šířka */
+  max-height: 800px; /* Maximální výška */
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+
+.modal-content {
+  flex-grow: 1; /* Umožní růstu obsahu */
+  overflow-y: auto;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-actions button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background-color: #007BFF;
+  color: white;
+  border-radius: 5px;
+}
+
+.modal-actions button:hover {
+  background-color: #0056b3;
+}
+
+.team-details, .team-timeline, .team-chat {
+  margin-bottom: 20px;
+}
+
+.team-details ul {
+  list-style-type: none;
+  padding-left: 0;
+}
