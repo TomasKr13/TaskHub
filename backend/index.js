@@ -7,6 +7,8 @@ const authRoutes = require('./routes/authRoutes');
 const mainPageRoutes = require('./routes/MainpageRoutes');
 const manageTask = require('./routes/manageTask');
 const manageTeams = require('./routes/manageTeams'); // Importuj nový router pro týmy
+const chatRoutes = require('./routes/chatRoutes'); // Importuj nový router pro chat
+const findUser = require('./routes/findUser'); // Importuj nový router pro vyhledávání uživatelů
 
 dotenv.config(); // Načtení environmentálních proměnných z .env souboru
 
@@ -38,7 +40,9 @@ app.use(session({
 app.use('/api/auth', authRoutes); 
 app.use('/api/main', mainPageRoutes);
 app.use('/api/manage', manageTask);
-app.use('/api/teams', manageTeams); // Přidej nový route pro týmy
+app.use('/api/teams', manageTeams); 
+app.use('/api/chat', chatRoutes); // Přidej nový route pro chat
+app.use('/api/users', findUser); // Přidej nový route pro vyhledávání uživatelů
 
 app.listen(PORT, () => {
   console.log(`Server běží na http://localhost:${PORT}`);

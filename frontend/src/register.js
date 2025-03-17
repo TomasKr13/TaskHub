@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./register.css";
 
 const Register = () => {
@@ -8,6 +8,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +35,8 @@ const Register = () => {
 
       if (response.ok) {
         setMessage(data.message);
+        // Přesměrování na přihlašovací stránku po úspěšné registraci
+        navigate('/login');
       } else {
         setMessage(data.message); 
       }

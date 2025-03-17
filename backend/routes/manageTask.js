@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { query } = require("../db"); 
+const { query } = require("../db");
 
 // Add Task Route
 router.post("/tasks", async (req, res) => {
@@ -31,11 +31,11 @@ router.post("/tasks", async (req, res) => {
     }
 
     const taskResult = await query(
-      'INSERT INTO tasks (title, description, task_type, time_estimate, assigned_to, user_id, priority_id , status) VALUES ($1, $2, $3, $4, $5, $6, $7 , 0) RETURNING *',
+      'INSERT INTO tasks (title, description, task_type, time_estimate, assigned_to, user_id, priority_id, status) VALUES ($1, $2, $3, $4, $5, $6, $7, 0) RETURNING *',
       [title, description, task_type, time_estimate, assignedTo, userID, priorityID]
     );
 
-    res.json(taskResult.rows[0]); 
+    res.json(taskResult.rows[0]);
   } catch (error) {
     console.error("Error adding task:", error);
     res.status(500).json({ error: "Failed to add task" });
@@ -105,9 +105,6 @@ router.put("/tasks/:id", async (req, res) => {
   }
 });
 
-
-
-
 // Cesta smazání úkolu
 router.delete("/tasks/:id", async (req, res) => {
   const { id } = req.params;
@@ -126,5 +123,20 @@ router.delete("/tasks/:id", async (req, res) => {
   }
 });
 
+// Endpoint pro získání všech úkolů
+router.get("/tasks", async (req, res) => {
+  try {
+    const result = await query(`
+      SELECT t.*, p.priority_name 
+      FROM tasks t
+      JOIN priority p ON t.priority_id = p.priority_id
+    `);
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Chyba při načítání úkolů:", error);
+    res.status(500).json({ error: "Nepodařilo se načíst úkoly" });
+  }
+});
 
 module.exports = router;

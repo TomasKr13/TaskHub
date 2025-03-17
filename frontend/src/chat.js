@@ -65,9 +65,7 @@ const Chat = ({ userId, teamId }) => {
         <nav className="nav-links">
           <Link to="/main">Hlavní strana</Link>
           <Link to="/Teams">Teamy</Link>
-          <Link to="/settings" onClick={handleLogoutAndRedirect}>
-            Odhlasit
-          </Link>
+          <Link to="/chat">Chat</Link>
         </nav>
         <div className="site-title">
           <h1>TASKHUB</h1>
@@ -81,6 +79,7 @@ const Chat = ({ userId, teamId }) => {
                 <div className="user-info-content">
                   <p><strong>Username:</strong> {authInfo.username}</p>
                   <p><strong>Email:</strong> {authInfo.email}</p>
+                  <button onClick={handleLogoutAndRedirect}>Odhlásit</button>
                 </div>
               ) : (
                 <p className="user-info-content">Uživatel není přihlášen.</p>

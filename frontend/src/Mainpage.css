@@ -152,19 +152,35 @@
 
 .user-info-content strong {
   color: #333;
-  
 }
 
 .user-icon {
   font-size: 2.5em;
-  margin-right: 10px;
+  margin-right: 25px;
   vertical-align: middle;
   color: #495372;
 }
 
+/* Button styling */
+.user-info-container button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 10px auto 0; /* Center the button */
+}
+
+.user-info-container button:hover {
+  background-color: #0056b3;
+}
 
 /* Background overlay */
-.modal {
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -178,30 +194,56 @@
 }
 
 /* Modal content */
-.modal-content {
+.modal {
   background-color: white;
-  padding: 1px; 
-  border-radius: 12px; 
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   width: 100%;
   max-width: 800px;
   box-sizing: border-box;
   overflow-y: auto;
-  transition: transform 0.3s ease-out; 
-  animation: modalFadeIn 0.4s ease-out; 
+  transition: transform 0.3s ease-out;
+  animation: modalFadeIn 0.4s ease-out;
+  position: relative; /* Přidání pro umístění křížku */
+}
+
+/* Smaller modal content */
+.modal-small {
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  transition: transform 0.3s ease-out;
+  animation: modalFadeIn 0.4s ease-out;
+  background-color: white;
+  text-align: center;
 }
 
 /* Modal heading */
-.modal-content h2 {
+.modal h2 {
   font-size: 24px; /* Větší písmo pro nadpis */
   color: #333; /* Tmavší barva pro nadpis */
-  margin-bottom: 18px; 
-  text-align: center; 
+  margin-bottom: 18px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Modal heading */
+.modal-small h2 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 18px;
   font-weight: 600;
 }
 
 /* Form input fields */
-.modal-content input, .modal-content textarea, .modal-content select {
+.modal input,
+.modal textarea,
+.modal select {
   width: 100%;
   padding: 12px;
   margin: 10px 0;
@@ -211,15 +253,17 @@
   transition: border-color 0.3s ease;
 }
 
-.modal-content input:focus, .modal-content textarea:focus, .modal-content select:focus {
+.modal input:focus,
+.modal textarea:focus,
+.modal select:focus {
   border-color: #4ca84f;
   outline: none;
 }
 
 /* Buttons styling */
-.modal-content .form-actions button {
+.modal .form-actions button {
   padding: 12px 24px;
-  margin: 10px 15px; 
+  margin: 10px 15px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -227,39 +271,70 @@
   transition: background-color 0.3s ease;
 }
 
+/* Buttons styling for smaller modal */
+.modal-small .form-actions button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-.modal-content .form-actions button[type="submit"] {
+.modal-small .form-actions button:first-child {
+  background-color: #d9534f; /* Červená pro tlačítko Ano */
+  color: white;
+}
+
+.modal-small .form-actions button:first-child:hover {
+  background-color: #c9302c; /* Tmavší červená při hoveru */
+}
+
+.modal-small .form-actions button:last-child {
+  background-color: #ccc; /* Šedá pro tlačítko Ne */
+  color: #333;
+}
+
+.modal-small .form-actions button:last-child:hover {
+  background-color: #bbb; /* Tmavší šedá při hoveru */
+}
+
+.modal .form-actions button[type="submit"] {
   background-color: #4ca84f;
   color: white;
 }
 
-.modal-content .form-actions button[type="submit"]:hover {
+.modal .form-actions button[type="submit"]:hover {
   background-color: #45a049; /* Tmavší zelená při hoveru */
 }
 
-.modal-content .form-actions button[type="button"] {
+.modal .form-actions button[type="button"] {
   background-color: #ccc; /* Šedá pro zrušení */
   color: #333;
 }
 
-.modal-content .form-actions button[type="button"]:hover {
+.modal .form-actions button[type="button"]:hover {
   background-color: #bbb; /* Tmavší šedá při hoveru */
 }
 
-
-.modal-content .close-btn {
+.modal .close-button {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: transparent;
+  background: none;
   border: none;
-  font-size: 20px;
+  font-size: 24px;
+  cursor: pointer;
   color: #333;
-  cursor: pointer; 
+  transition: color 0.3s ease, transform 0.3s ease;
+  padding: 5px; /* Přidání paddingu */
+  border-radius: 50%; /* Zaoblení tlačítka */
 }
 
-.modal-content .close-btn:hover {
-  color: #4ca84f; /* Zelená barva pro hover */
+.modal .close-button:hover {
+  color: #ff0000;
+  transform: scale(1.1); /* Zvýšení velikosti při najetí */
+  background-color: rgba(0, 0, 0, 0.1); /* Přidání pozadí při najetí */
 }
 
 /* Animation for modal fade-in */
@@ -273,8 +348,6 @@
     transform: translateY(0);
   }
 }
-
-
 
 /* Styly pro formuláře */
 .task-form-table {
@@ -331,13 +404,11 @@
   background-color: #0056b3; /* Tmavší modrá pro hover */
 }
 
-
 /* Responzivní design pro menší zařízení */
 @media (max-width: 768px) {
   .dashboard {
     flex-direction: column;
     gap: 10px;
-    
   }
 
   .table {
@@ -359,6 +430,7 @@
     height: auto;
   }
 }
+
 .task-card {
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -383,6 +455,7 @@
   font-size: 0.5rem; /* Menší velikost písma */
   line-height: 0.5; /* Menší výška řádku */
 }
+
 .delete-btn {
   position: absolute;
   top: 5px;
@@ -403,13 +476,14 @@
   color: rgb(160, 5, 5);
   background-color: #e1dfdf;
 }
+
 .add-task-btn {
-  background-color: #29522b; /* Zelená barva */
+  background-color: #4b5b6c; 
   color: white;
-  font-size: 15px; /* Velikost znaku + */
-  width: 30px; /* Šířka tlačítka */
-  height: 30px; /* Výška tlačítka */
-  border-radius: 50%; /* Kruh */
+  font-size: 20px; /* Velikost znaku + */
+  width: 21px; /* Šířka tlačítka */
+  height: 20px; /* Výška tlačítka */
+  border-radius: 40%; /* Kruh */
   border: none;
   display: flex;
   align-items: center;
@@ -417,7 +491,7 @@
   cursor: pointer;
   padding: 0;
   top: 10px; /* Vzdálenost od horního okraje */
-  right: 10px; /* Vzdálenost od pravého okraje */
+  right: 5px; /* Vzdálenost od pravého okraje */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Jemný stín pro hloubku */
   transition: all 0.3s ease; /* Plynulý přechod pro efekt hover */
   margin-left: 200px;
@@ -445,15 +519,55 @@
 .status-controls button {
   padding: 2.5px 5px; /* Poloviční padding */
   font-size: 0.8rem; /* Zmenšení textu */
-  background-color: #7b7b7b;
-  border: 1px solid #ccc;
+  background-color: white; /* Bílé pozadí */
+  color: #8e8e8e; /* Lehce šedivé šipky */
+  border: 1px solid #ededed;
   border-radius: 4px;
   cursor: pointer;
 }
 
 .status-controls button:disabled {
-  background-color: #7b7b7b;
+  background-color: #f0f0f0; /* Světlejší pozadí pro deaktivovaná tlačítka */
+  color: #ccc; /* Světlejší šedá pro deaktivované šipky */
   cursor: not-allowed;
+}
+
+/* Menší modální okna */
+.modal-small {
+  max-width: 400px;
+}
+
+.modal-small .modal h2 {
+  font-size: 20px;
+}
+
+.modal-small .modal .form-actions button {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.modal-small .form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.modal-small .form-actions button:first-child {
+  background-color: #d9534f; /* Červená pro tlačítko Ano */
+  color: white;
+}
+
+.modal-small .form-actions button:first-child:hover {
+  background-color: #c9302c; /* Tmavší červená při hoveru */
+}
+
+.modal-small .form-actions button:last-child {
+  background-color: #ccc; /* Šedá pro tlačítko Ne */
+  color: #333;
+}
+
+.modal-small .form-actions button:last-child:hover {
+  background-color: #bbb; /* Tmavší šedá při hoveru */
 }
 
 

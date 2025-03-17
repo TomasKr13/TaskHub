@@ -11,7 +11,7 @@ router.get("/tasks/:userId", async (req, res) => {
 
   try {
     const query_string = `
-      SELECT task_id, title, status
+      SELECT *
       FROM tasks
       WHERE user_id = $1
     `;

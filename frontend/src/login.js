@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from './authProvider';
 import './login.css'; // Importování CSS souboru
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { fetchAuthInfo } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -27,8 +28,8 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
+        await fetchAuthInfo(); // Aktualizace stavu autentizace
         navigate('/main');
-        
       } else {
         alert(data.message); 
       }

@@ -20,15 +20,9 @@ const MainPage = () => {
     time_estimate: "",
     status: "",
   });
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
   const navigate = useNavigate();
-
-  const refreshPageOnce = () => {
-    // Check if the page has already been refreshed
-    if (!localStorage.getItem("pageRefreshed")) {
-      localStorage.setItem("pageRefreshed", "true");
-      window.location.reload(); // Reload the page
-    }
-  };
 
   const decreaseStatus = async (task) => {
     const currentStatus = parseInt(task.status)
@@ -73,6 +67,7 @@ const MainPage = () => {
   
 
   const fetchTasks = async () => {
+    console.log(authInfo);
     if (authInfo.isAuthenticated) {
       try {
         const response = await fetch(`/api/main/tasks/${authInfo.userID}`);
@@ -81,18 +76,15 @@ const MainPage = () => {
         setAssignedTasks(data.tasks.filter((task) => task.assignedTo === authInfo.userID));
         setInProgressTasks(data.tasks.filter((task) => task.status === "in-progress"));
         setCompletedTasks(data.tasks.filter((task) => task.status === "completed"));
-        console.log(tasks)
-        refreshPageOnce(); // Call the refreshPageOnce function
       } catch (error) {
         console.error("Chyba při načítání úkolů:", error);
+        console.log("authInfo");
       }
     }
   };
 
   useEffect(() => {
-
     fetchTasks();
-    console.log(tasks)
   }, [authInfo]);
 
   const handleLogoutAndRedirect = (e) => {
@@ -103,7 +95,6 @@ const MainPage = () => {
   };
 
   const addTask = async () => {
-    console.log(tasks)
     if (!newTask.title || !newTask.description || !newTask.priority || !newTask.task_type || !newTask.time_estimate) {
       return;
     }
@@ -139,7 +130,6 @@ const MainPage = () => {
 
   const updateTask = async () => {
     if (!taskToEdit.title || !taskToEdit.description || !taskToEdit.priority || !taskToEdit.task_type || !taskToEdit.time_estimate) {
-     
       return;
     }
 
@@ -166,9 +156,14 @@ const MainPage = () => {
     }
   };
 
-  const deleteTask = async (taskId) => {
+  const confirmDeleteTask = (taskId) => {
+    setTaskToDelete(taskId);
+    setShowDeleteConfirm(true);
+  };
+
+  const deleteTask = async () => {
     try {
-      const response = await fetch(`/api/manage/tasks/${taskId}`, {
+      const response = await fetch(`/api/manage/tasks/${taskToDelete}`, {
         method: "DELETE",
       });
 
@@ -176,7 +171,9 @@ const MainPage = () => {
         throw new Error("Chyba serveru při mazání úkolu.");
       }
 
-      setTasks((prevTasks) => prevTasks.filter((task) => task.task_id !== taskId));
+      setTasks((prevTasks) => prevTasks.filter((task) => task.task_id !== taskToDelete));
+      setShowDeleteConfirm(false);
+      setTaskToDelete(null);
     } catch (error) {
       console.error("Chyba při mazání úkolu:", error);
     }
@@ -201,16 +198,37 @@ const MainPage = () => {
     setTaskToEdit(task);
   };
 
+  const moveTaskUp = (taskId) => {
+    setTasks((prevTasks) => {
+      const index = prevTasks.findIndex((task) => task.task_id === taskId);
+      if (index > 0) {
+        const newTasks = [...prevTasks];
+        [newTasks[index - 1], newTasks[index]] = [newTasks[index], newTasks[index - 1]];
+        return newTasks;
+      }
+      return prevTasks;
+    });
+  };
+
+  const moveTaskDown = (taskId) => {
+    setTasks((prevTasks) => {
+      const index = prevTasks.findIndex((task) => task.task_id === taskId);
+      if (index < prevTasks.length - 1) {
+        const newTasks = [...prevTasks];
+        [newTasks[index + 1], newTasks[index]] = [newTasks[index], newTasks[index + 1]];
+        return newTasks;
+      }
+      return prevTasks;
+    });
+  };
+
   return (
     <div className="container">
       <header className="top-navbar">
         <nav className="nav-links">
-
-          <Link to="/chat">Chat</Link>
+          <Link to="/main">Hlavní strana</Link>
           <Link to="/Teams">Teamy</Link>
-          <Link to="/settings" onClick={handleLogoutAndRedirect}>
-            Odhlasit
-          </Link>
+          <Link to="/chat">Chat</Link>
         </nav>
         <div className="site-title">
           <h1>TASKHUB</h1>
@@ -228,6 +246,7 @@ const MainPage = () => {
               ) : (
                 <p className="user-info-content">Uživatel není přihlášen.</p>
               )}
+              <button onClick={handleLogoutAndRedirect}>Odhlásit</button>
             </div>
           )}
         </div>
@@ -241,48 +260,57 @@ const MainPage = () => {
             tasks={tasks.filter(task => task.status === "0")}
             emptyMessage="Nejsou žádné úkoly"
             onAddTask={() => setShowTaskForm(true)}
-            onDeleteTask={deleteTask}
+            onDeleteTask={confirmDeleteTask}
             onEditTask={setTaskToEdit}
             onDoubleClickTitle={handleTitleDoubleClick}
             onIncreaseStatus={increaseStatus}
             onDecreaseStatus={decreaseStatus}
+            onMoveTaskUp={moveTaskUp}
+            onMoveTaskDown={moveTaskDown}
           />
           <TaskTable
             key={"Přiřazené úkoly"}
             title="Přiřazené úkoly"
             tasks={tasks.filter(task => task.status === "1")}
-            onDeleteTask={deleteTask}
+            onDeleteTask={confirmDeleteTask}
             onEditTask={setTaskToEdit}
             onDoubleClickTitle={handleTitleDoubleClick}
             onIncreaseStatus={increaseStatus}
             onDecreaseStatus={decreaseStatus}
+            onMoveTaskUp={moveTaskUp}
+            onMoveTaskDown={moveTaskDown}
           />
           <TaskTable
             key={"Rozpracované úkoly"}
             title="Rozpracované úkoly"
             tasks={tasks.filter(task => task.status === "2")}
-            onDeleteTask={deleteTask}
+            onDeleteTask={confirmDeleteTask}
             onEditTask={setTaskToEdit}
             onDoubleClickTitle={handleTitleDoubleClick}
             onIncreaseStatus={increaseStatus}
             onDecreaseStatus={decreaseStatus}
+            onMoveTaskUp={moveTaskUp}
+            onMoveTaskDown={moveTaskDown}
           />
           <TaskTable
             key={"Hotové úkoly"}
             title="Hotové úkoly"
             tasks={tasks.filter(task => task.status === "3")}
-            onDeleteTask={deleteTask}
+            onDeleteTask={confirmDeleteTask}
             onEditTask={setTaskToEdit}
             onDoubleClickTitle={handleTitleDoubleClick}
             onIncreaseStatus={increaseStatus}
             onDecreaseStatus={decreaseStatus}
+            onMoveTaskUp={moveTaskUp}
+            onMoveTaskDown={moveTaskDown}
           />
         </main>
       </div>
 
       {(showTaskForm || taskToEdit) && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className="modal-overlay">
+          <div className="modal">
+            <button className="close-button" onClick={() => { setTaskToEdit(null); setShowTaskForm(false); }}>✖</button>
             <h2>{taskToEdit ? "Upravit úkol" : "Přidat nový úkol"}</h2>
             <form
               onSubmit={(e) => {
@@ -323,9 +351,20 @@ const MainPage = () => {
               </table>
               <div className="form-actions">
                 <button type="submit">{taskToEdit ? "Upravit " : "Přidat úkol"}</button>
-                <button type="button" onClick={() => { setTaskToEdit(null); setShowTaskForm(false); }}>Zavřít</button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {showDeleteConfirm && (
+        <div className="modal-overlay">
+          <div className="modal-small">
+            <h2>Opravdu chcete smazat tento úkol?</h2>
+            <div className="form-actions">
+              <button onClick={deleteTask}>Ano</button>
+              <button onClick={() => setShowDeleteConfirm(false)}>Ne</button>
+            </div>
           </div>
         </div>
       )}
@@ -333,41 +372,44 @@ const MainPage = () => {
   );
 };
 
-const TaskTable = ({ title, tasks, emptyMessage = "Nejsou žádné úkoly", onAddTask, onDeleteTask, onEditTask , onDecreaseStatus , onIncreaseStatus }) => {
-console.log(tasks)
-return(
-  <div className="table">
-    <div className="table-header">
-      {title}
-      {onAddTask && <button className="add-task-btn" onClick={onAddTask}>+</button>}
-    </div>
-    <div className="table-content">
-      {tasks.length > 0 ? (
-        tasks.map((task) => ( 
-          <div key={task.title} className={"task-card id:" + task.id}>
-            <h3 onDoubleClick={() => onEditTask(task)}>{task.title}</h3>
-            <p><strong>Popis úkolu:</strong>{task.description}</p>
-            <p><strong>Důležitost:</strong> {task.priority}</p>
-            <p><strong>Typ:</strong> {task.task_type}</p>
-            <p><strong>Čas dokončení:</strong> {task.time_estimate}</p>
+const TaskTable = ({ title, tasks, emptyMessage = "Nejsou žádné úkoly", onAddTask, onDeleteTask, onEditTask , onDecreaseStatus , onIncreaseStatus, onMoveTaskUp, onMoveTaskDown }) => {
+  console.log(tasks);
+  return (
+    
+    <div className="table">
+      <div className="table-header">
+        {title}
+        {onAddTask && <button className="add-task-btn" onClick={onAddTask}>+</button>}
+      </div>
+      <div className="table-content">
+        {tasks.length > 0 ? (
+        
+          tasks.map((task) => ( 
+            
+            <div key={task.title} className={"task-card id:" + task.id}>
+              <h3 onDoubleClick={() => onEditTask(task)}>{task.title}</h3>
+              <p><strong>Popis úkolu:</strong>{task.description}</p>
+              <p><strong>Důležitost:</strong> {task.priority}</p>
+              <p><strong>Typ:</strong> {task.task_type}</p>
+              <p><strong>Čas dokončení:</strong> {task.time_estimate}</p>
 
-            <div className="status-controls">
-              <button onClick={() => onDecreaseStatus(task)} disabled={task.status === 0}>◀</button>
-              <span>{task.status}</span>
-              <button onClick={() => onIncreaseStatus(task)} disabled={task.status === 3}>▶</button>
+              <div className="status-controls">
+                <button onClick={() => onDecreaseStatus(task)} disabled={task.status === 0}>◀</button>
+                  {/* <span>{task.status}</span> */}
+                <button onClick={() => onIncreaseStatus(task)} disabled={task.status === 3}>▶</button>
+              </div>
+
+              
+
+              <button className="delete-btn" onClick={() => onDeleteTask(task.task_id)}>×</button>
             </div>
-
-            <button className="delete-btn" onClick={() => onDeleteTask(task.task_id)}>×</button>
-          </div>
-        ))
-
-      ) : (
-        <p>{emptyMessage}</p>
-      )}
+          ))
+        ) : (
+          <p>{emptyMessage}</p>
+        )}
+      </div>
     </div>
-  </div>
-)};
-
-
+  );
+};
 
 export default MainPage;
