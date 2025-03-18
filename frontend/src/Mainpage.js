@@ -228,7 +228,7 @@ const MainPage = () => {
         <nav className="nav-links">
           <Link to="/main">Hlavní strana</Link>
           <Link to="/Teams">Teamy</Link>
-          <Link to="/chat">Chat</Link>
+          {/* <Link to="/chat">Chat</Link> */}
         </nav>
         <div className="site-title">
           <h1>TASKHUB</h1>
@@ -389,7 +389,7 @@ const TaskTable = ({ title, tasks, emptyMessage = "Nejsou žádné úkoly", onAd
             <div key={task.title} className={"task-card id:" + task.id}>
               <h3 onDoubleClick={() => onEditTask(task)}>{task.title}</h3>
               <p><strong>Popis úkolu:</strong>{task.description}</p>
-              <p><strong>Důležitost:</strong> {task.priority}</p>
+             {/*  <p><strong>Důležitost:</strong> {task.priority}</p> */}
               <p><strong>Typ:</strong> {task.task_type}</p>
               <p><strong>Čas dokončení:</strong> {task.time_estimate}</p>
 

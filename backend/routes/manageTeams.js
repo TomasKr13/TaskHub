@@ -216,16 +216,36 @@ router.delete('/:teamId', async (req, res) => {
 // Endpoint pro přidání úkolu k týmu
 router.post('/:teamId/tasks', async (req, res) => {
   const { teamId } = req.params;
-  const { title, description, assignedTo, status, date } = req.body;
+  const { title, description, assignedTo, status, time_estimate, task_type, priority } = req.body;
+  const userId = req.session?.user?.id;
 
-  if (!title || !description || !assignedTo || !status || !date) {
+  if (!title || !description || !assignedTo || !status || !time_estimate || !task_type || !priority) {
     return res.status(400).json({ error: 'Všechna pole musí být vyplněna.' });
   }
 
   try {
+    // Najdi prioritu podle jména
+    let priorityResult = await query(
+      'SELECT priority_id FROM priority WHERE priority_name = $1',
+      [priority]
+    );
+
+    let priorityID;
+    if (priorityResult.rows.length > 0) {
+      // Pokud priorita existuje, použij její ID
+      priorityID = priorityResult.rows[0].priority_id;
+    } else {
+      // Pokud priorita neexistuje, vytvoř novou
+      const insertPriorityResult = await query(
+        'INSERT INTO priority (priority_name) VALUES ($1) RETURNING priority_id',
+        [priority]
+      );
+      priorityID = insertPriorityResult.rows[0].priority_id;
+    }
+
     const result = await query(
-      'INSERT INTO tasks (title, description, team_id, assigned_to, status, date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [title, description, teamId, assignedTo, status, date]
+      'INSERT INTO tasks (title, description, team_id, assigned_to, status, time_estimate, user_id, task_type, priority_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+      [title, description, teamId, assignedTo, status, time_estimate, userId, task_type, priorityID]
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {
@@ -240,7 +260,11 @@ router.get('/:teamId/tasks', async (req, res) => {
 
   try {
     const result = await query(
-      'SELECT * FROM tasks WHERE team_id = $1',
+      `SELECT t.*, u.username AS assignedTo
+       FROM tasks t
+       LEFT JOIN users u ON t.assigned_to = u.user_id
+       WHERE t.team_id = $1
+       ORDER BY t.time_estimate ASC`,
       [teamId]
     );
     res.status(200).json({ tasks: result.rows });
@@ -249,5 +273,156 @@ router.get('/:teamId/tasks', async (req, res) => {
     res.status(500).json({ error: 'Chyba při načítání úkolů týmu' });
   }
 });
+
+// Endpoint pro aktualizaci úkolu
+router.put('/tasks/:taskId', async (req, res) => {
+  const { taskId } = req.params;
+  const { title, description, time_estimate, task_type, priority } = req.body;
+
+  try {
+    // Najdi prioritu podle jména
+    let priorityResult = await query(
+      'SELECT priority_id FROM priority WHERE priority_name = $1',
+      [priority]
+    );
+
+    let priorityID;
+    if (priorityResult.rows.length > 0) {
+      // Pokud priorita existuje, použij její ID
+      priorityID = priorityResult.rows[0].priority_id;
+    } else {
+      // Pokud priorita neexistuje, vytvoř novou
+      const insertPriorityResult = await query(
+        'INSERT INTO priority (priority_name) VALUES ($1) RETURNING priority_id',
+        [priority]
+      );
+      priorityID = insertPriorityResult.rows[0].priority_id;
+    }
+
+    const result = await query(
+      'UPDATE tasks SET title = $1, description = $2, time_estimate = $3, task_type = $4, priority_id = $5 WHERE task_id = $6 RETURNING *',
+      [title, description, time_estimate, task_type, priorityID, taskId]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Úkol nebyl nalezen.' });
+    }
+
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error('Chyba při aktualizaci úkolu:', error);
+    res.status(500).json({ error: 'Chyba při aktualizaci úkolu' });
+  }
+});
+
+// Endpoint pro smazání úkolu
+router.delete('/tasks/:taskId', async (req, res) => {
+  const { taskId } = req.params;
+
+  try {
+    const result = await query('DELETE FROM tasks WHERE task_id = $1 RETURNING *', [taskId]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Úkol nebyl nalezen.' });
+    }
+
+    res.status(200).json({ message: 'Úkol byl úspěšně smazán.', deletedTask: result.rows[0] });
+  } catch (error) {
+    console.error('Chyba při mazání úkolu:', error);
+    res.status(500).json({ error: 'Chyba při mazání úkolu.' });
+  }
+});
+
+const handleDeleteTask = async (taskId) => {
+  try {
+    const response = await fetch(`/api/tasks/${taskId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (!response.ok) throw new Error("Chyba při mazání úkolu");
+
+    // Aktualizace stavu po úspěšném smazání
+    setTasksByDay((prevTasks) => {
+      const updatedTasks = { ...prevTasks };
+      for (const date in updatedTasks) {
+        updatedTasks[date] = updatedTasks[date].filter((task) => task.task_id !== taskId);
+      }
+      return updatedTasks;
+    });
+  } catch (error) {
+    console.error("Chyba při mazání úkolu:", error);
+  }
+};
+
+const handleAddTask = async (e) => {
+  e.preventDefault();
+  if (!newTask.title || !newTask.description || !newTask.task_type || !newTask.priority) {
+    alert("Název, popis, typ úkolu a priorita nemůže být prázdný.");
+    return;
+  }
+
+  const task = {
+    ...newTask,
+    team_id: currentTeam.team_id,
+    assignedTo: authInfo.userID,
+    status: "new",
+    time_estimate: selectedDay, // Použití správného dne
+  };
+
+  try {
+    const response = await fetch(`/api/teams/${currentTeam.team_id}/tasks`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(task),
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Chyba při přidávání úkolu.");
+    }
+
+    const data = await response.json();
+    setTasksByDay((prevTasks) => ({
+      ...prevTasks,
+      [selectedDay]: [...(prevTasks[selectedDay] || []), data],
+    }));
+    setNewTask({ title: "", description: "", task_type: "", priority: "" });
+    setShowModal(false); // Zavření modálního okna
+  } catch (error) {
+    console.error("Chyba při přidávání úkolu:", error);
+  }
+};
+
+const handleEditTask = async (taskId) => {
+  try {
+    const response = await fetch(`/api/teams/tasks/${taskId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(editingTask),
+      credentials: "include",
+    });
+
+    if (!response.ok) throw new Error("Chyba při úpravě úkolu");
+
+    const updatedTask = await response.json();
+
+    // Update the task in the state
+    setTasksByDay((prevTasks) => {
+      const date = updatedTask.time_estimate.split('T')[0];
+      return {
+        ...prevTasks,
+        [date]: prevTasks[date].map((task) =>
+          task.task_id === taskId ? updatedTask : task
+        ),
+      };
+    });
+
+    setEditingTask(null); // Close the edit modal
+  } catch (error) {
+    console.error("Chyba při úpravě úkolu:", error);
+  }
+};
 
 module.exports = router;

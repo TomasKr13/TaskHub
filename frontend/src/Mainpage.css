@@ -490,12 +490,12 @@
   justify-content: center;
   cursor: pointer;
   padding: 0;
-  top: 10px; /* Vzdálenost od horního okraje */
+  top: 5px; /* Vzdálenost od horního okraje */
   right: 5px; /* Vzdálenost od pravého okraje */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Jemný stín pro hloubku */
   transition: all 0.3s ease; /* Plynulý přechod pro efekt hover */
   margin-left: 200px;
-  margin-top: -20px;
+  margin-bottom: 0px;
 }
 
 .add-task-btn:hover {

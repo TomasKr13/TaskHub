@@ -34,6 +34,7 @@ body {
   align-items: center;
   width: 100%;
   margin-top: -100px; /* Posunutí nadpisu o 100px výše */
+  min-width: 600px; /* Ensure the parent container also respects the minimum width */
 }
 
 /* Teams List */
@@ -43,6 +44,9 @@ body {
   gap: 20px;
   justify-content: center;
   width: 100%;
+  min-width: 1200px; /* Set the minimum width */
+  max-width: 100%; /* Allow it to expand dynamically */
+  margin: 0 auto; /* Center the container */
 }
 
 /* Team Card */
@@ -172,30 +176,88 @@ body {
 /* Smaller modal content */
 .modal-small {
   max-width: 400px;
-  height: 150px; /* Nastavení pevné výšky */
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden; /* Zakázání posouvání */
-  transition: transform 0.3s ease-out;
-  animation: modalFadeIn 0.4s ease-out;
-}
-
-/* Modal heading */
-.modal-small h2 {
-  font-size: 20px;
-  color: #000000;
-  margin-bottom: 18px;
+  background-color: white;
   text-align: center;
-  font-weight: 600;
 }
 
-/* Buttons styling for smaller modal */
+.modal-small h2 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.modal-small .form-actions {
+  display: flex;
+  justify-content: space-around;
+}
+
 .modal-small .form-actions button {
-  padding: 8px 16px;
+  padding: 10px 20px;
   font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-small .form-actions button:first-child {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modal-small .form-actions button:first-child:hover {
+  background-color: #c82333;
+}
+
+.modal-small .form-actions button:last-child {
+  background-color: #ccc;
+  color: #333;
+}
+
+.modal-small .form-actions button:last-child:hover {
+  background-color: #bbb;
+}
+
+/* Přidávání uživatelů - Ano tlačítko zelené */
+.modal-small.add-user .form-actions button:first-child {
+  background-color: #28a745; /* Zelená barva */
+  color: white;
+}
+
+.modal-small.add-user .form-actions button:first-child:hover {
+  background-color: #218838; /* Tmavší zelená při hoveru */
+}
+
+/* Přidávání uživatelů - Ne tlačítko šedé */
+.modal-small.add-user .form-actions button:last-child {
+  background-color: #ccc;
+  color: #333;
+}
+
+.modal-small.add-user .form-actions button:last-child:hover {
+  background-color: #bbb;
+}
+
+/* Odstraňování uživatelů - Ano tlačítko červené */
+.modal-small.remove-user .form-actions button:first-child {
+  background-color: #dc3545; /* Červená barva */
+  color: white;
+}
+
+.modal-small.remove-user .form-actions button:first-child:hover {
+  background-color: #c82333; /* Tmavší červená při hoveru */
+}
+
+/* Odstraňování uživatelů - Ne tlačítko šedé */
+.modal-small.remove-user .form-actions button:last-child {
+  background-color: #ccc;
+  color: #333;
+}
+
+.modal-small.remove-user .form-actions button:last-child:hover {
+  background-color: #bbb;
 }
 
 /* Smaller modal for adding tasks */
@@ -211,6 +273,10 @@ body {
   transition: transform 0.3s ease-out;
   animation: modalFadeIn 0.4s ease-out;
   position: relative; /* Přidání pro umístění křížku */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 /* Modal heading for adding tasks */
@@ -220,6 +286,11 @@ body {
   margin-bottom: 18px;
   text-align: center;
   font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.modal-task p {
+  margin: 10px 0;
 }
 
 /* Buttons styling for adding tasks modal */
@@ -299,79 +370,76 @@ body {
 }
 
 .chat-messages {
-  max-height: 400px; /* Zvýšení maximální výšky */
+  max-height: 500px; /* Increase the maximum height */
   overflow-y: auto;
-  padding: 10px;
+  padding: 15px; /* Add more padding for better spacing */
   background: #f9f9f9;
   border-radius: 10px;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
 .chat-message {
-  margin-bottom: 10px;
+  margin-bottom: 8px; /* Add more spacing between messages */
   position: relative;
-  word-wrap: break-word; /* Zajištění zalamování textu */
+  word-wrap: break-word; /* Ensure text wraps properly */
+  min-height: 50px; /* Set a minimum height to prevent resizing */
+  padding: 10px; /* Add padding for better readability */
+  background-color: #ffffff; /* Ensure consistent background */
+  border-radius: 15px; /* Add rounded corners */
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.chat-message:hover {
+  background-color: #f0f0f0; /* Slightly darker background on hover */
 }
 
 .chat-timestamp {
-  display: none; /* Hide by default */
-  font-size: 8px; /* Reduced font size */
+  display: block; /* Ensure timestamps are always visible */
+  font-size: 10px; /* Slightly larger font size for readability */
   color: #888;
   position: absolute;
-  right: 0;
-  top: 0;
-  margin-top: 5px;
-  margin-left: 10px;
-  opacity: 0.7; /* Snížení viditelnosti */
-}
-
-.chat-message:hover .chat-timestamp {
-  display: block; /* Show on hover */
+  right: 10px;
+  top: 10px;
 }
 
 .chat-message strong {
-  font-size: 10px; /* Reduced font size for sender's name */
+  font-size: 12px; /* Reduced font size for sender's name */
   color: #333;
 }
 
 .delete-message-button,
 .edit-message-button {
-  display: none; /* Hide by default */
+  background-color: transparent;
+  border: none;
+  font-size: 12px; /* Velikost textu tlačítek */
+  cursor: pointer;
+  margin-left: 5px;
+  width: 20px; /* Pevná šířka tlačítek */
+  height: 20px; /* Pevná výška tlačítek */
+  display: inline-block; /* Tlačítka budou vždy přítomná */
+  visibility: hidden; /* Skryté, ale zabírají místo */
+  opacity: 0; /* Neviditelné */
+  transition: opacity 0.3s ease; /* Plynulý přechod viditelnosti */
 }
 
 .chat-message:hover .delete-message-button,
 .chat-message:hover .edit-message-button {
-  display: inline-block; /* Show on hover */
-}
-
-.delete-message-button {
-  background-color: transparent;
-  border: none;
-  color: rgba(255, 0, 0, 0.677);
-  font-size: 12px; /* Adjust font size if needed */
-  cursor: pointer;
-  margin-left: 5px; /* Reduced margin to move it more to the left */
-  width: 20px; /* Set a fixed width */
+  visibility: visible; /* Zviditelnění tlačítek při hoveru */
+  opacity: 1; /* Zobrazení tlačítek */
 }
 
 .delete-message-button:hover {
   color: darkred;
-  background-color: transparent; /* Ensure background color remains transparent */
+  background-color: transparent; /* Zajištění, že pozadí zůstane průhledné */
 }
 
 .edit-message-button {
-  background-color: transparent;
-  border: none;
   color: #007bff;
-  font-size: 12px; /* Adjust font size if needed */
-  cursor: pointer;
-  margin-left: 5px; /* Reduced margin to move it more to the left */
-  width: 20px; /* Set a fixed width */
 }
 
 .edit-message-button:hover {
   color: #0056b3;
-  background-color: transparent; /* Ensure background color remains transparent */
+  background-color: transparent; /* Zajištění, že pozadí zůstane průhledné */
 }
 
 .save-message-button {
@@ -448,16 +516,17 @@ body {
   position: relative;
 }
 
-.week::after {
+/* .week::after {
   content: '';
   position: absolute;
   top: 50%;
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #ccc;
+  background-color: #ffffff;
   transform: translateY(-50%);
-}
+} */
+
 
 .week h3 {
   font-size: 20px; /* Zvýšení velikosti fontu */
@@ -468,41 +537,112 @@ body {
 /* Days inside timeline */
 .timeline-days {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
   flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center; /* Center the days */
 }
 
 .day {
-  flex: 1;
-  min-width: 120px; /* Zvýšení minimální šířky */
-  background: white;
-  padding: 15px; /* Zvýšení paddingu */
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  text-align: center;
-  font-size: 14px;
-  font-weight: 600;
-  transition: transform 0.2s ease-in-out;
+  padding: 10px;
+  width: 140px; /* Zvýšení šířky dne */
+  height: 180px; /* Zvýšení výšky dne */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   cursor: pointer;
-  
+  background-color: #fff; /* Bílé pozadí pro lepší viditelnost */
+  border-radius: 8px; /* Zaoblené rohy */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Jemný stín */
+  transition: transform 0.3s ease; /* Plynulý přechod při najetí */
 }
 
 .day:hover {
-  transform: scale(1.05);
-  background-color: #f0f8ff;
+  transform: translateY(-5px); /* Jemný efekt při najetí */
 }
 
-.day .day-title {
-  font-size: 16px;
+.day-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 14px; /* Mírné zmenšení textu */
   color: #007bff;
-  white-space: nowrap; /* Ensure single line */
+  text-align: center; /* Zarovnání na střed */
+  white-space: nowrap; /* Zajištění, že text zůstane na jednom řádku */
 }
 
-.day .day-tasks {
+.day-tasks {
+  flex-grow: 1;
+  overflow-y: auto; /* Povolit posouvání, pokud je více úkolů */
   font-size: 12px;
   color: #666;
+  max-height: 120px; /* Nastavení maximální výšky pro zobrazení dvou úkolů */
+  padding: 5px; /* Přidání paddingu pro lepší vzhled */
+  border: 1px solid #ddd; /* Přidání okraje pro oddělení úkolů */
+  border-radius: 5px;
+  background-color: #f9f9f9; /* Jemné pozadí */
+}
+
+.task-item {
+  position: relative;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.task-item:hover {
+  background-color: #f9f9f9;
+}
+
+.task-actions {
+  display: flex;
+  gap: 5px;
   margin-top: 5px;
+}
+
+.task-actions button {
+  padding: 3px 6px; /* Zmenšení paddingu */
+  font-size: 10px; /* Zmenšení velikosti textu */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.task-actions button:first-child {
+  background-color: #007bff;
+  color: white;
+}
+
+.task-actions button:first-child:hover {
+  background-color: #0056b3;
+}
+
+.task-actions button:last-child {
+  background-color: #dc3545;
+  color: white;
+}
+
+.task-actions button:last-child:hover {
+  background-color: #c82333;
+}
+
+.add-task-btn {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.add-task-btn:hover {
+  background-color: #218838;
 }
 
 /* Team Members */
@@ -645,30 +785,88 @@ body {
 /* Smaller modal content */
 .modal-small {
   max-width: 400px;
-  height: 150px; /* Nastavení pevné výšky */
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden; /* Zakázání posouvání */
-  transition: transform 0.3s ease-out;
-  animation: modalFadeIn 0.4s ease-out;
-}
-
-/* Modal heading */
-.modal-small h2 {
-  font-size: 20px;
-  color: #000000;
-  margin-bottom: 18px;
+  background-color: white;
   text-align: center;
-  font-weight: 600;
 }
 
-/* Buttons styling for smaller modal */
+.modal-small h2 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.modal-small .form-actions {
+  display: flex;
+  justify-content: space-around;
+}
+
 .modal-small .form-actions button {
-  padding: 8px 16px;
+  padding: 10px 20px;
   font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-small .form-actions button:first-child {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modal-small .form-actions button:first-child:hover {
+  background-color: #c82333;
+}
+
+.modal-small .form-actions button:last-child {
+  background-color: #ccc;
+  color: #333;
+}
+
+.modal-small .form-actions button:last-child:hover {
+  background-color: #bbb;
+}
+
+/* Přidávání uživatelů - Ano tlačítko zelené */
+.modal-small.add-user .form-actions button:first-child {
+  background-color: #28a745; /* Zelená barva */
+  color: white;
+}
+
+.modal-small.add-user .form-actions button:first-child:hover {
+  background-color: #218838; /* Tmavší zelená při hoveru */
+}
+
+/* Přidávání uživatelů - Ne tlačítko šedé */
+.modal-small.add-user .form-actions button:last-child {
+  background-color: #ccc;
+  color: #333;
+}
+
+.modal-small.add-user .form-actions button:last-child:hover {
+  background-color: #bbb;
+}
+
+/* Odstraňování uživatelů - Ano tlačítko červené */
+.modal-small.remove-user .form-actions button:first-child {
+  background-color: #dc3545; /* Červená barva */
+  color: white;
+}
+
+.modal-small.remove-user .form-actions button:first-child:hover {
+  background-color: #c82333; /* Tmavší červená při hoveru */
+}
+
+/* Odstraňování uživatelů - Ne tlačítko šedé */
+.modal-small.remove-user .form-actions button:last-child {
+  background-color: #ccc;
+  color: #333;
+}
+
+.modal-small.remove-user .form-actions button:last-child:hover {
+  background-color: #bbb;
 }
 
 /* Smaller modal for adding tasks */
@@ -684,6 +882,10 @@ body {
   transition: transform 0.3s ease-out;
   animation: modalFadeIn 0.4s ease-out;
   position: relative; /* Přidání pro umístění křížku */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 /* Modal heading for adding tasks */
@@ -693,6 +895,11 @@ body {
   margin-bottom: 18px;
   text-align: center;
   font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.modal-task p {
+  margin: 10px 0;
 }
 
 /* Buttons styling for adding tasks modal */
@@ -906,4 +1113,170 @@ body {
 .confirm-remove-button:hover {
   color: darkgreen;
   background-color: transparent; /* Ensure background color remains transparent */
+}
+
+.task-actions {
+  display: flex;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.task-actions button {
+  padding: 3px 6px; /* Zmenšení paddingu */
+  font-size: 10px; /* Zmenšení velikosti textu */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.task-actions button:first-child {
+  background-color: #007bff;
+  color: white;
+}
+
+.task-actions button:first-child:hover {
+  background-color: #0056b3;
+}
+
+.task-actions button:last-child {
+  background-color: #dc3545;
+  color: white;
+}
+
+.task-actions button:last-child:hover {
+  background-color: #c82333;
+}
+
+.add-task-btn2 {
+  margin-top: 10px;
+  margin-left: 30px;
+  padding: 5px 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+  width: 80px;
+  margin-left: 30px;
+}
+
+.add-task-btn:hover {
+  background-color: #218838;
+}
+
+.team-member {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.delete-member-button {
+  background-color: transparent;
+  border: none;
+  color: rgb(141, 9, 9);
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.delete-member-button:hover {
+  color: darkred;
+}
+
+.modal-small {
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  background-color: white;
+  text-align: center;
+}
+
+.modal-small h2 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.modal-small .form-actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal-small .form-actions button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-small .form-actions button:first-child {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modal-small .form-actions button:first-child:hover {
+  background-color: #c82333;
+}
+
+.modal-small .form-actions button:last-child {
+  background-color: #ccc;
+  color: #333;
+}
+
+.modal-small .form-actions button:last-child:hover {
+  background-color: #bbb;
+}
+
+/* Menší modal pro potvrzení smazání úkolu */
+.modal-small.delete-task {
+  max-width: 300px; /* Zmenšení šířky */
+  padding: 15px; /* Menší padding */
+  border-radius: 10px; /* Mírně menší zaoblení */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Jemnější stín */
+  background-color: white;
+  text-align: center;
+}
+
+.modal-small.delete-task h2 {
+  font-size: 16px; /* Menší velikost textu */
+  margin-bottom: 15px;
+}
+
+.modal-small.delete-task .form-actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal-small.delete-task .form-actions button {
+  padding: 8px 16px; /* Menší tlačítka */
+  font-size: 12px; /* Menší text tlačítek */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-small.delete-task .form-actions button:first-child {
+  background-color: #dc3545; /* Červená barva pro potvrzení */
+  color: white;
+}
+
+.modal-small.delete-task .form-actions button:first-child:hover {
+  background-color: #c82333; /* Tmavší červená při hoveru */
+}
+
+.modal-small.delete-task .form-actions button:last-child {
+  background-color: #ccc; /* Šedá barva pro zrušení */
+  color: #333;
+}
+
+.modal-small.delete-task .form-actions button:last-child:hover {
+  background-color: #bbb; /* Tmavší šedá při hoveru */
 }
