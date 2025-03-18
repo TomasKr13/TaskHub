@@ -246,7 +246,7 @@ const MainPage = () => {
               ) : (
                 <p className="user-info-content">Uživatel není přihlášen.</p>
               )}
-              <button onClick={handleLogoutAndRedirect}>Odhlásit</button>
+              <button className="logout" onClick={handleLogoutAndRedirect}>Odhlásit</button>
             </div>
           )}
         </div>
@@ -379,7 +379,7 @@ const TaskTable = ({ title, tasks, emptyMessage = "Nejsou žádné úkoly", onAd
     <div className="table">
       <div className="table-header">
         {title}
-        {onAddTask && <button className="add-task-btn" onClick={onAddTask}>+</button>}
+        {onAddTask && <button className="add-task-btn1" onClick={onAddTask}>+</button>}
       </div>
       <div className="table-content">
         {tasks.length > 0 ? (

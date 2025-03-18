@@ -11,7 +11,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #343a40; /* Tmavě šedá */
+  background-color: #536878;
   color: white;
   padding: 10px 20px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
@@ -32,7 +32,7 @@
   background-color: #f8f9fa;
 }
 
-/* Dashboard přepneme na grid */
+/* Dashboard */
 .dashboard {
   display: flex;
   justify-content: space-between;
@@ -47,7 +47,7 @@
   min-width: 250px;
   max-width: 350px;
   padding: 20px;
-  background-color: #ffffff; /* Bílá pozadí pro tabulky */
+  background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 10px;
   text-align: center;
@@ -63,27 +63,26 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Nastavení pro hlavičku tabulky */
+/* Hlavička tabulky */
 .table-header {
-  background-color: #007bff; /* Modrá pro zvýraznění */
+  background-color: #00416A;
   padding: 10px;
   text-align: center;
   font-weight: bold;
   color: white;
-  border-bottom: 2px solid #0056b3; /* Tmavší modrá pro oddělení */
+  border-bottom: 2px solid #003153;
   border-radius: 5px 5px 0 0;
-  margin-bottom: 10px;
 }
 
-/* Obsah tabulky (úkoly) */
+/* Obsah tabulky */
 .table-content {
   display: flex;
-  flex-direction: column-reverse; /* Nové úkoly budou nahoře */
+  flex-direction: column-reverse;
   padding: 10px;
   text-align: left;
-  gap: 5px; /* Mezera mezi úkoly */
-  max-height: 500px; /* Nastaví pevnou výšku */
-  overflow-y: auto;  /* Přidá scrollovací lištu, pokud je úkolů moc */
+  gap: 5px;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 .table-content div {
@@ -91,7 +90,7 @@
 }
 
 .table-content p {
-  color: #555; /* Temně šedý text pro lepší čitelnost */
+  color: #555;
 }
 
 /* Odkazy na stránky vlevo */
@@ -109,7 +108,7 @@
 
 .nav-links a:hover {
   text-decoration: underline;
-  color: #ccc; /* Světle šedá pro zvýraznění při hover */
+  color: #ccc;
 }
 
 /* Název stránky ve středu */
@@ -125,9 +124,9 @@
   color: white;
 }
 
-/* Profil uživatele vpravo */
+/* Profil uživatele */
 .user-info-container {
-  background-color: rgba(188, 188, 188, 0.9); /* Poloprůhledná šedá (80% neprůhlednosti) */
+  background-color: rgba(188, 188, 188, 0.9);
   padding: 15px;
   border-radius: 15px;
   width: 300px;
@@ -161,7 +160,6 @@
   color: #495372;
 }
 
-/* Button styling */
 .user-info-container button {
   padding: 10px 20px;
   background-color: #007bff;
@@ -172,11 +170,35 @@
   font-size: 16px;
   transition: background-color 0.3s ease;
   display: block;
-  margin: 10px auto 0; /* Center the button */
+  margin: 10px auto 0;
 }
 
 .user-info-container button:hover {
   background-color: #0056b3;
+}
+
+.user-info-container button.logout {
+  padding: 12px 24px; /* Increase padding for better clickability */
+  background-color: #990000; /* Red background for logout */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px; /* Slightly larger font size */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: block;
+  margin: 15px auto 0; /* Center the button */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.user-info-container button.logout:hover {
+  background-color: #CC3333; /* Darker red on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.user-info-container button.logout:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(220, 53, 69, 0.5); /* Add a glow effect on focus */
 }
 
 /* Background overlay */
@@ -186,14 +208,14 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Jemný stín pozadí */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Zajištění, že modal bude nad ostatním obsahem */
+  z-index: 1000;
 }
 
-/* Modal content */
+/* Modal */
 .modal {
   background-color: white;
   padding: 20px;
@@ -205,7 +227,7 @@
   overflow-y: auto;
   transition: transform 0.3s ease-out;
   animation: modalFadeIn 0.4s ease-out;
-  position: relative; /* Přidání pro umístění křížku */
+  position: relative;
 }
 
 /* Smaller modal content */
@@ -225,8 +247,8 @@
 
 /* Modal heading */
 .modal h2 {
-  font-size: 24px; /* Větší písmo pro nadpis */
-  color: #333; /* Tmavší barva pro nadpis */
+  font-size: 24px;
+  color: #333;
   margin-bottom: 18px;
   text-align: center;
   font-weight: 600;
@@ -248,16 +270,9 @@
   padding: 12px;
   margin: 10px 0;
   border: 1px solid #ccc;
-  border-radius: 8px; /* Zaoblení okrajů vstupních polí */
+  border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.3s ease;
-}
-
-.modal input:focus,
-.modal textarea:focus,
-.modal select:focus {
-  border-color: #4ca84f;
-  outline: none;
 }
 
 /* Buttons styling */
@@ -282,21 +297,21 @@
 }
 
 .modal-small .form-actions button:first-child {
-  background-color: #d9534f; /* Červená pro tlačítko Ano */
+  background-color: #d9534f;
   color: white;
 }
 
 .modal-small .form-actions button:first-child:hover {
-  background-color: #c9302c; /* Tmavší červená při hoveru */
+  background-color: #c9302c;
 }
 
 .modal-small .form-actions button:last-child {
-  background-color: #ccc; /* Šedá pro tlačítko Ne */
+  background-color: #ccc;
   color: #333;
 }
 
 .modal-small .form-actions button:last-child:hover {
-  background-color: #bbb; /* Tmavší šedá při hoveru */
+  background-color: #bbb;
 }
 
 .modal .form-actions button[type="submit"] {
@@ -305,18 +320,19 @@
 }
 
 .modal .form-actions button[type="submit"]:hover {
-  background-color: #45a049; /* Tmavší zelená při hoveru */
+  background-color: #45a049;
 }
 
 .modal .form-actions button[type="button"] {
-  background-color: #ccc; /* Šedá pro zrušení */
+  background-color: #ccc;
   color: #333;
 }
 
 .modal .form-actions button[type="button"]:hover {
-  background-color: #bbb; /* Tmavší šedá při hoveru */
+  background-color: #bbb;
 }
 
+/* Tlačítko zavřít */
 .modal .close-button {
   position: absolute;
   top: 10px;
@@ -327,14 +343,14 @@
   cursor: pointer;
   color: #333;
   transition: color 0.3s ease, transform 0.3s ease;
-  padding: 5px; /* Přidání paddingu */
-  border-radius: 50%; /* Zaoblení tlačítka */
+  padding: 5px;
+  border-radius: 50%;
 }
 
 .modal .close-button:hover {
-  color: #ff0000;
-  transform: scale(1.1); /* Zvýšení velikosti při najetí */
-  background-color: rgba(0, 0, 0, 0.1); /* Přidání pozadí při najetí */
+  color: #990000;
+  transform: scale(1.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Animation for modal fade-in */
@@ -361,26 +377,26 @@
 
 .task-form-table label {
   font-weight: bold;
-  display: block; /* Zajistí, že labely se nebudou tlačit k inputu */
+  display: block;
   margin-bottom: 5px;
 }
 
 .task-form-table input,
 .task-form-table select,
 .task-form-table textarea {
-  width: 100%;
+  width: 80%;
   padding: 10px;
-  margin-top: 5px;
-  margin-bottom: 10px; /* Větší mezera mezi políčky pro lepší čitelnost */
+  margin: 5px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-  font-size: 1em; /* Zvýší čitelnost textu */
+  font-size: 1em;
+  margin-left: 36px;
 }
 
 .task-form-table textarea {
-  resize: vertical; /* Umožní zvětšení výšky textarea */
-  min-height: 80px; /* Nastaví minimální výšku pro textarea */
+  resize: vertical;
+  min-height: 80px;
 }
 
 /* Akční tlačítka */
@@ -392,16 +408,16 @@
 
 .form-actions button {
   padding: 10px 20px;
-  background-color: #007bff; /* Modrá pro tlačítka */
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  min-width: 100px; /* Ujistí se, že tlačítka budou dostatečně široká */
+  min-width: 100px;
 }
 
 .form-actions button:hover {
-  background-color: #0056b3; /* Tmavší modrá pro hover */
+  background-color: #0056b3;
 }
 
 /* Responzivní design pro menší zařízení */
@@ -434,8 +450,8 @@
 .task-card {
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 8px; /* Menší výplň */
-  margin: 2px 0; /* Menší mezery mezi kartami */
+  padding: 8px;
+  margin: 2px 0;
   background-color: #f9f9f9;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -445,15 +461,15 @@
 }
 
 .task-card h3 {
-  margin: 0 0 0.2px; /* Menší mezera pod názvem */
-  font-size: 1.0rem; /* Menší velikost písma */
-  display: inline-block;  /* Zajišťuje, že text a tlačítko budou vedle sebe */
+  margin: 0 0 0.2px;
+  font-size: 1.0rem;
+  display: inline-block;
 }
 
 .task-card p {
-  margin: 2px 0; /* Menší mezery mezi textovými řádky */
-  font-size: 0.5rem; /* Menší velikost písma */
-  line-height: 0.5; /* Menší výška řádku */
+  margin: 2px 0;
+  font-size: 0.5rem;
+  line-height: 0.5;
 }
 
 .delete-btn {
@@ -461,15 +477,15 @@
   top: 5px;
   right: 5px;
   background-color: transparent;
-  color: red;
-  font-size: 16px; /* Velikost křížku */
+  color: #990000;
+  font-size: 16px;
   border: none;
   cursor: pointer;
   padding: 0;
   width: 20px;
   height: 20px;
   text-align: center;
-  line-height: 18px; /* Vertikálně zarovnané */
+  line-height: 18px;
 }
 
 .delete-btn:hover {
@@ -477,58 +493,50 @@
   background-color: #e1dfdf;
 }
 
-.add-task-btn {
-  background-color: #4b5b6c; 
-  color: white;
-  font-size: 20px; /* Velikost znaku + */
-  width: 21px; /* Šířka tlačítka */
-  height: 20px; /* Výška tlačítka */
-  border-radius: 40%; /* Kruh */
+.add-task-btn1 {
+  padding: 5px 8px;
+  background-color: #2072AF;
+  color: rgb(216, 216, 216);
   border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 7px;
   cursor: pointer;
-  padding: 0;
-  top: 5px; /* Vzdálenost od horního okraje */
-  right: 5px; /* Vzdálenost od pravého okraje */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Jemný stín pro hloubku */
-  transition: all 0.3s ease; /* Plynulý přechod pro efekt hover */
-  margin-left: 200px;
-  margin-bottom: 0px;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+  margin-left: 5px;
+  text-align: right;
 }
 
-.add-task-btn:hover {
-  background-color: #1a371c; /* Tmavší zelená při najetí */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Silnější stín při hoveru */
+.add-task-btn1:hover {
+  background-color: #318CE7;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-.add-task-btn:focus {
-  outline: none; /* Odstranění rámečku při kliknutí */
-  box-shadow: 0 0 10px rgba(76, 175, 80, 0.6); /* Zvýraznění tlačítka po kliknutí */
+.add-task-btn1:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(59, 82, 186, 0.6);
 }
 
 .status-controls {
   display: flex;
-  justify-content: space-between; /* Tlačítka na krajích */
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
   margin-top: 10px;
 }
 
 .status-controls button {
-  padding: 2.5px 5px; /* Poloviční padding */
-  font-size: 0.8rem; /* Zmenšení textu */
-  background-color: white; /* Bílé pozadí */
-  color: #8e8e8e; /* Lehce šedivé šipky */
+  padding: 2.5px 5px;
+  font-size: 0.8rem;
+  background-color: white;
+  color: #8e8e8e;
   border: 1px solid #ededed;
   border-radius: 4px;
   cursor: pointer;
 }
 
 .status-controls button:disabled {
-  background-color: #f0f0f0; /* Světlejší pozadí pro deaktivovaná tlačítka */
-  color: #ccc; /* Světlejší šedá pro deaktivované šipky */
+  background-color: #f0f0f0;
+  color: #ccc;
   cursor: not-allowed;
 }
 
@@ -553,24 +561,20 @@
 }
 
 .modal-small .form-actions button:first-child {
-  background-color: #d9534f; /* Červená pro tlačítko Ano */
+  background-color: #d9534f;
   color: white;
 }
 
 .modal-small .form-actions button:first-child:hover {
-  background-color: #c9302c; /* Tmavší červená při hoveru */
+  background-color: #c9302c;
 }
 
 .modal-small .form-actions button:last-child {
-  background-color: #ccc; /* Šedá pro tlačítko Ne */
+  background-color: #ccc;
   color: #333;
 }
 
 .modal-small .form-actions button:last-child:hover {
-  background-color: #bbb; /* Tmavší šedá při hoveru */
+  background-color: #bbb;
 }
-
-
-
-
 
