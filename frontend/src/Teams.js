@@ -790,7 +790,7 @@ const Teams = () => {
 
       {showDeleteConfirm && (
         <div className="modal-overlay">
-          <div className="modal modal-small">
+          <div className="modal-small delete-team">
             <h2>Opravdu chcete smazat tento tým?</h2>
             <div className="form-actions">
               <button onClick={() => deleteTeam(teamToDelete)}>Ano</button>

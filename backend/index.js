@@ -9,11 +9,12 @@ const manageTask = require('./routes/manageTask');
 const manageTeams = require('./routes/manageTeams'); // Importuj nový router pro týmy
 const chatRoutes = require('./routes/chatRoutes'); // Importuj nový router pro chat
 const findUser = require('./routes/findUser'); // Importuj nový router pro vyhledávání uživatelů
+const path = require('path');
 
 dotenv.config(); // Načtení environmentálních proměnných z .env souboru
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 
 // Middleware
@@ -43,6 +44,15 @@ app.use('/api/manage', manageTask);
 app.use('/api/teams', manageTeams); 
 app.use('/api/chat', chatRoutes); // Přidej nový route pro chat
 app.use('/api/users', findUser); // Přidej nový route pro vyhledávání uživatelů
+
+app.use(express.static(path.join(__dirname, "build")))
+
+app.get("*", (req, res) => {
+  if (req.path.startsWith("/api")) {
+    return res.status(404).send("API route not found")
+  }
+  res.sendFile(path.join(__dirname, "build", "index.html"))
+});
 
 app.listen(PORT, () => {
   console.log(`Server běží na http://localhost:${PORT}`);

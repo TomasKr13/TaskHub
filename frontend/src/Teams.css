@@ -1280,3 +1280,50 @@ body {
 .modal-small.delete-task .form-actions button:last-child:hover {
   background-color: #bbb; /* Tmavší šedá při hoveru */
 }
+
+/* Menší modal pro potvrzení smazání týmu */
+.modal-small.delete-team {
+  max-width: 300px; /* Zmenšení šířky */
+  padding: 15px; /* Menší padding */
+  border-radius: 10px; /* Mírně menší zaoblení */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Jemnější stín */
+  background-color: white;
+  text-align: center;
+}
+
+.modal-small.delete-team h2 {
+  font-size: 16px; /* Menší velikost textu */
+  margin-bottom: 15px;
+}
+
+.modal-small.delete-team .form-actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal-small.delete-team .form-actions button {
+  padding: 8px 16px; /* Menší tlačítka */
+  font-size: 12px; /* Menší text tlačítek */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-small.delete-team .form-actions button:first-child {
+  background-color: #dc3545; /* Červená barva pro potvrzení */
+  color: white;
+}
+
+.modal-small.delete-team .form-actions button:first-child:hover {
+  background-color: #c82333; /* Tmavší červená při hoveru */
+}
+
+.modal-small.delete-team .form-actions button:last-child {
+  background-color: #ccc; /* Šedá barva pro zrušení */
+  color: #333;
+}
+
+.modal-small.delete-team .form-actions button:last-child:hover {
+  background-color: #bbb; /* Tmavší šedá při hoveru */
+}
