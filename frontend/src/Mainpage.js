@@ -216,7 +216,7 @@ const MainPage = () => {
       const index = prevTasks.findIndex((task) => task.task_id === taskId);
       if (index > 0) {
         const newTasks = [...prevTasks];
-        [newTasks[index - 1], newTasks[index]] = [newTasks[index], newTasks[index - 1]];
+        [newTasks[index - 1], newTasks[index]] = [newTasks[index], newTasks[index - 1]]; // Prohození úkolů
         return newTasks;
       }
       return prevTasks;
@@ -228,7 +228,7 @@ const MainPage = () => {
       const index = prevTasks.findIndex((task) => task.task_id === taskId);
       if (index < prevTasks.length - 1) {
         const newTasks = [...prevTasks];
-        [newTasks[index + 1], newTasks[index]] = [newTasks[index], newTasks[index + 1]];
+        [newTasks[index], newTasks[index + 1]] = [newTasks[index + 1], newTasks[index]]; // Prohození úkolů
         return newTasks;
       }
       return prevTasks;
@@ -240,7 +240,7 @@ const MainPage = () => {
       const index = prevTasks.findIndex((task) => task.task_id === taskId);
       if (index > 0) {
         const newTasks = [...prevTasks];
-        [newTasks[index], newTasks[index - 1]] = [newTasks[index - 1], newTasks[index]]; // Opraveno: Prohození směrem nahoru
+        [newTasks[index], newTasks[index - 1]] = [newTasks[index - 1], newTasks[index]]; // Prohození směrem nahoru
         return newTasks;
       }
       return prevTasks;
@@ -252,7 +252,7 @@ const MainPage = () => {
       const index = prevTasks.findIndex((task) => task.task_id === taskId);
       if (index < prevTasks.length - 1) {
         const newTasks = [...prevTasks];
-        [newTasks[index], newTasks[index + 1]] = [newTasks[index + 1], newTasks[index]]; // Opraveno: Prohození směrem dolů
+        [newTasks[index], newTasks[index + 1]] = [newTasks[index + 1], newTasks[index]]; // Prohození směrem dolů
         return newTasks;
       }
       return prevTasks;
@@ -303,8 +303,8 @@ const MainPage = () => {
             onDoubleClickTitle={handleTitleDoubleClick}
             onIncreaseStatus={increaseStatus}
             onDecreaseStatus={decreaseStatus}
-            onMoveTaskUp={moveTaskUp}
-            onMoveTaskDown={moveTaskDown}
+            onMoveTaskUp={moveTaskUp} // Předání funkce
+            onMoveTaskDown={moveTaskDown} // Předání funkce
           />
           <TaskTable
             key={"Přiřazené úkoly"}
@@ -360,16 +360,36 @@ const MainPage = () => {
                 <tbody>
                   <tr>
                     <td><label>Název úkolu:</label></td>
-                    <td><input type="text" name="title" value={taskToEdit ? taskToEdit.title : newTask.title} onChange={handleInputChange} required /></td>
+                    <td>
+                      <input
+                        type="text"
+                        name="title"
+                        value={taskToEdit ? taskToEdit.title : newTask.title}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </td>
                   </tr>
                   <tr>
                     <td><label>Popis úkolu:</label></td>
-                    <td><textarea name="description" value={taskToEdit ? taskToEdit.description : newTask.description} onChange={handleInputChange} required /></td>
+                    <td>
+                      <textarea
+                        name="description"
+                        value={taskToEdit ? taskToEdit.description : newTask.description}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </td>
                   </tr>
                   <tr>
                     <td><label>Důležitost:</label></td>
                     <td>
-                      <select name="priority" value={taskToEdit ? taskToEdit.priority : newTask.priority} onChange={handleInputChange} required>
+                      <select
+                        name="priority"
+                        value={taskToEdit ? taskToEdit.priority : newTask.priority}
+                        onChange={handleInputChange}
+                        required
+                      >
                         <option value="">Vyberte...</option>
                         <option value="low">Nízká</option>
                         <option value="medium">Střední</option>
@@ -379,11 +399,27 @@ const MainPage = () => {
                   </tr>
                   <tr>
                     <td><label>Typ úkolu:</label></td>
-                    <td><input type="text" name="task_type" value={taskToEdit ? taskToEdit.task_type : newTask.task_type} onChange={handleInputChange} required /></td>
+                    <td>
+                      <input
+                        type="text"
+                        name="task_type"
+                        value={taskToEdit ? taskToEdit.task_type : newTask.task_type}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </td>
                   </tr>
                   <tr>
                     <td><label>Datum dokončení:</label></td>
-                    <td><input type="datetime-local" name="time_estimate" value={taskToEdit ? taskToEdit.time_estimate : newTask.time_estimate} onChange={handleInputChange} required /></td>
+                    <td>
+                      <input
+                        type="datetime-local"
+                        name="time_estimate"
+                        value={taskToEdit ? taskToEdit.time_estimate : newTask.time_estimate}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -427,16 +463,16 @@ const TaskTable = ({ title, tasks, emptyMessage = "Nejsou žádné úkoly", onAd
         {tasks.length > 0 ? (
           tasks.map((task, index) => (
             <div key={task.task_id} className="task-card">
-              <h3>{task.title}</h3>
+              <h3 onDoubleClick={() => onEditTask(task)}>{task.title}</h3>
               <div className="task-move-buttons">
                 <button
-                  onClick={() => onMoveTaskDown(task.task_id)} // Tlačítko dolů
+                  onClick={() => onMoveTaskDown(task.task_id)}
                   disabled={index === tasks.length - 1} // Zakázat tlačítko, pokud je úkol poslední
                 >
                   ▲
                 </button>
                 <button
-                  onClick={() => onMoveTaskUp(task.task_id)} // Tlačítko nahoru
+                  onClick={() => onMoveTaskUp(task.task_id)}
                   disabled={index === 0} // Zakázat tlačítko, pokud je úkol první
                 >
                   ▼

@@ -643,35 +643,37 @@ const Teams = () => {
                   {currentTeam.members?.map((member) => (
                     <li key={member.user_id} className="team-member">
                       <span>{member.username}</span>
-                      <button
-                        className="delete-member-button"
-                        onClick={() => {
-                          setUserToRemove(member.user_id); // Set the user to remove
-                          setShowRemoveUserConfirm(true); // Show the confirmation modal
-                        }}
-                      >
-                        ✖
-                      </button>
+                      {/* Skryje tlačítko pro aktuálně přihlášeného uživatele */}
+                      {member.user_id !== authInfo.userID && (
+                        <button
+                          className="delete-member-button"
+                          onClick={() => {
+                            setUserToRemove(member.user_id); // Nastavení uživatele k odstranění
+                            setShowRemoveUserConfirm(true); // Zobrazení potvrzovacího modálního okna
+                          }}
+                        >
+                          ✖
+                        </button>
+                      )}
                     </li>
                   ))}
                 </ul>
-                <div className="add-member">
-                  <input
-                    type="text"
-                    placeholder="Hledat uživatele..."
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                  />
-                  {searchResults.length > 0 && (
-                    <ul className="search-results">
-                      {searchResults.map((user) => (
-                        <li key={user.user_id} onClick={() => handleAddUserToTeam(user.user_id)}>
-                          {user.username}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
+                {/* Přesunuto pole pro hledání uživatelů */}
+                <input
+                  type="text"
+                  placeholder="Hledat uživatele..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                />
+                {searchResults.length > 0 && (
+                  <ul className="search-results">
+                    {searchResults.map((user) => (
+                      <li key={user.user_id} onClick={() => handleAddUserToTeam(user.user_id)}>
+                        {user.username}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
           </div>
@@ -821,7 +823,7 @@ const Teams = () => {
             <p><strong>Popis:</strong> {selectedTask.description}</p>
             <p><strong>Odhadovaný čas:</strong> {selectedTask.time_estimate}</p>
             <p><strong>Typ úkolu:</strong> {selectedTask.task_type}</p>
-            <p><strong>Vytvořil:</strong> {selectedTask.user_id || "Neznámý"}</p>
+  {/*           <p><strong>Vytvořil:</strong> {selectedTask.user_id || "Neznámý"}</p> */}
           </div>
         </div>
       )}

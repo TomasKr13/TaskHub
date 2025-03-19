@@ -391,7 +391,7 @@
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 1em;
-  margin-left: 36px;
+  margin-left: 40px;
 }
 
 .task-form-table textarea {
@@ -470,8 +470,8 @@
 
 .task-card p {
   margin: 2px 0;
-  font-size: 0.56rem;
-  line-height: 0.5;
+  font-size: 0.6rem;
+  line-height: 0.6;
   font-weight: bold; /* Zvýrazní text */
   margin: 0 0 6px 0px;
 }
@@ -595,9 +595,9 @@
 
 .task-move-buttons button {
   padding: 5px 4px;
-  font-size: 10px;
-  background-color: #318CE7;
-  color: rgb(251, 251, 251);
+  font-size: 12px;
+  background-color: #90a6bb;
+  color: rgb(18, 57, 99);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -606,7 +606,7 @@
 }
 
 .task-move-buttons button:hover {
-  background-color: #0070BB;
+  background-color: #98a7b1;
   transform: scale(1.02);
 }
 
