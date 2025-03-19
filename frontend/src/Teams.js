@@ -821,7 +821,7 @@ const Teams = () => {
             <p><strong>Popis:</strong> {selectedTask.description}</p>
             <p><strong>Odhadovaný čas:</strong> {selectedTask.time_estimate}</p>
             <p><strong>Typ úkolu:</strong> {selectedTask.task_type}</p>
-            <p><strong>Vytvořil:</strong> {selectedTask.assignedTo || "Neznámý"}</p>
+            <p><strong>Vytvořil:</strong> {selectedTask.user_id || "Neznámý"}</p>
           </div>
         </div>
       )}
