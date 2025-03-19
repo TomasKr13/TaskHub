@@ -72,10 +72,23 @@ const MainPage = () => {
       try {
         const response = await fetch(`/api/main/tasks/${authInfo.userID}`);
         const data = await response.json();
-        setTasks(data.tasks);
-        setAssignedTasks(data.tasks.filter((task) => task.assignedTo === authInfo.userID));
-        setInProgressTasks(data.tasks.filter((task) => task.status === "in-progress"));
-        setCompletedTasks(data.tasks.filter((task) => task.status === "completed"));
+
+        // Mapování priority_id na textovou hodnotu
+        const priorityMap = {
+          7: "nízká",
+          6: "vysoká",
+          5: "střední",
+        };
+
+        const tasksWithPriority = data.tasks.map((task) => ({
+          ...task,
+          priority: priorityMap[task.priority_id] || "neznámá", // Default na "neznámá", pokud není v mapě
+        }));
+
+        setTasks(tasksWithPriority);
+        setAssignedTasks(tasksWithPriority.filter((task) => task.assignedTo === authInfo.userID));
+        setInProgressTasks(tasksWithPriority.filter((task) => task.status === "in-progress"));
+        setCompletedTasks(tasksWithPriority.filter((task) => task.status === "completed"));
       } catch (error) {
         console.error("Chyba při načítání úkolů:", error);
         console.log("authInfo");
@@ -222,6 +235,31 @@ const MainPage = () => {
     });
   };
 
+  const onMoveTaskUp = (taskId) => {
+    setTasks((prevTasks) => {
+      const index = prevTasks.findIndex((task) => task.task_id === taskId);
+      if (index > 0) {
+        const newTasks = [...prevTasks];
+        [newTasks[index], newTasks[index - 1]] = [newTasks[index - 1], newTasks[index]]; // Opraveno: Prohození směrem nahoru
+        return newTasks;
+      }
+      return prevTasks;
+    });
+  };
+  
+  const onMoveTaskDown = (taskId) => {
+    setTasks((prevTasks) => {
+      const index = prevTasks.findIndex((task) => task.task_id === taskId);
+      if (index < prevTasks.length - 1) {
+        const newTasks = [...prevTasks];
+        [newTasks[index], newTasks[index + 1]] = [newTasks[index + 1], newTasks[index]]; // Opraveno: Prohození směrem dolů
+        return newTasks;
+      }
+      return prevTasks;
+    });
+  };
+  
+
   return (
     <div className="container">
       <header className="top-navbar">
@@ -344,7 +382,7 @@ const MainPage = () => {
                     <td><input type="text" name="task_type" value={taskToEdit ? taskToEdit.task_type : newTask.task_type} onChange={handleInputChange} required /></td>
                   </tr>
                   <tr>
-                    <td><label>Datum a čas dokončení:</label></td>
+                    <td><label>Datum dokončení:</label></td>
                     <td><input type="datetime-local" name="time_estimate" value={taskToEdit ? taskToEdit.time_estimate : newTask.time_estimate} onChange={handleInputChange} required /></td>
                   </tr>
                 </tbody>
@@ -373,9 +411,13 @@ const MainPage = () => {
 };
 
 const TaskTable = ({ title, tasks, emptyMessage = "Nejsou žádné úkoly", onAddTask, onDeleteTask, onEditTask , onDecreaseStatus , onIncreaseStatus, onMoveTaskUp, onMoveTaskDown }) => {
-  console.log(tasks);
+  const priorityMap = {
+    7: "nízká",
+    6: "vysoká",
+    5: "střední",
+  };
+
   return (
-    
     <div className="table">
       <div className="table-header">
         {title}
@@ -383,23 +425,32 @@ const TaskTable = ({ title, tasks, emptyMessage = "Nejsou žádné úkoly", onAd
       </div>
       <div className="table-content">
         {tasks.length > 0 ? (
-        
-          tasks.map((task) => ( 
-            
-            <div key={task.title} className={"task-card id:" + task.id}>
-              <h3 onDoubleClick={() => onEditTask(task)}>{task.title}</h3>
+          tasks.map((task, index) => (
+            <div key={task.task_id} className="task-card">
+              <h3>{task.title}</h3>
+              <div className="task-move-buttons">
+                <button
+                  onClick={() => onMoveTaskDown(task.task_id)} // Tlačítko dolů
+                  disabled={index === tasks.length - 1} // Zakázat tlačítko, pokud je úkol poslední
+                >
+                  ▲
+                </button>
+                <button
+                  onClick={() => onMoveTaskUp(task.task_id)} // Tlačítko nahoru
+                  disabled={index === 0} // Zakázat tlačítko, pokud je úkol první
+                >
+                  ▼
+                </button>
+              </div>
               <p><strong>Popis úkolu:</strong>{task.description}</p>
-             {/*  <p><strong>Důležitost:</strong> {task.priority}</p> */}
+              <p><strong>Důležitost:</strong> {priorityMap[task.priority_id] || "neznámá"}</p>
               <p><strong>Typ:</strong> {task.task_type}</p>
               <p><strong>Čas dokončení:</strong> {task.time_estimate}</p>
 
               <div className="status-controls">
                 <button onClick={() => onDecreaseStatus(task)} disabled={task.status === 0}>◀</button>
-                  {/* <span>{task.status}</span> */}
                 <button onClick={() => onIncreaseStatus(task)} disabled={task.status === 3}>▶</button>
               </div>
-
-              
 
               <button className="delete-btn" onClick={() => onDeleteTask(task.task_id)}>×</button>
             </div>

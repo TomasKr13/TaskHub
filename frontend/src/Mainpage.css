@@ -461,15 +461,19 @@
 }
 
 .task-card h3 {
-  margin: 0 0 0.2px;
-  font-size: 1.0rem;
-  display: inline-block;
+  margin: 0 0 10px 0px; /* Posune název doprava (20px) a přidá spodní mezeru */
+  font-size: 1.1rem; /* Zvýší velikost textu */
+  font-weight: bold; /* Zvýrazní text */
+  color: #333; /* Tmavší barva textu */
+  text-align: center;
 }
 
 .task-card p {
   margin: 2px 0;
-  font-size: 0.5rem;
+  font-size: 0.56rem;
   line-height: 0.5;
+  font-weight: bold; /* Zvýrazní text */
+  margin: 0 0 6px 0px;
 }
 
 .delete-btn {
@@ -576,5 +580,42 @@
 
 .modal-small .form-actions button:last-child:hover {
   background-color: #bbb;
+}
+
+.task-move-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: absolute;
+  top: 30px;
+  right: 3px;
+  width: 25px;
+  text-align: center;
+}
+
+.task-move-buttons button {
+  padding: 5px 8px;
+  font-size: 10px;
+  background-color: #318CE7;
+  color: rgb(251, 251, 251);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+}
+
+.task-move-buttons button:hover {
+  background-color: #0070BB;
+  transform: scale(1.1);
+}
+
+.task-move-buttons button:disabled {
+  background-color: #ffffff;
+  color: #ffffff;
+
+  visibility: hidden;
+
+  
 }
 
