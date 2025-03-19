@@ -517,7 +517,7 @@ const Teams = () => {
                 <div className="user-info-content">
                   <p><strong>Username:</strong> {authInfo.username}</p>
                   <p><strong>Email:</strong> {authInfo.email}</p>
-                  <button onClick={handleLogoutAndRedirect}>Odhlásit</button>
+                  <button className="logout-button" onClick={handleLogoutAndRedirect}>Odhlásit</button>
                 </div>
               ) : (
                 <p className="user-info-content">Uživatel není přihlášen.</p>

@@ -17,7 +17,7 @@ const Chat = ({ userId, teamId }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`/api/chat/users/${teamId}`);
+        const response = await axios.get(`/api/chat/${teamId}/users`);
         setUsers(response.data);
       } catch (error) {
         console.error('Chyba při načítání uživatelů:', error);
@@ -52,6 +52,23 @@ const Chat = ({ userId, teamId }) => {
   const handleChatWithUser = (user) => {
     setChatUser(user);
     setMessages([]);
+  };
+
+  const handleSendMessage = async () => {
+    if (newMessage.trim() === '') return;
+
+    try {
+      const response = await axios.post('/api/chat/send', {
+        userId,
+        teamId,
+        message: newMessage,
+        chatUserId: chatUser.id,
+      });
+      setMessages([...messages, response.data]);
+      setNewMessage('');
+    } catch (error) {
+      console.error('Chyba při odesílání zprávy:', error);
+    }
   };
 
   // Filtrování uživatelů na základě vyhledávacího dotazu
@@ -105,7 +122,7 @@ const Chat = ({ userId, teamId }) => {
               filteredUsers.map((user) => (
                 <li
                   key={user.id}
-                  className="user-item"
+                  className={`user-item ${chatUser?.id === user.id ? 'active' : ''}`}
                   onClick={() => handleChatWithUser(user)}
                   onMouseEnter={() => setShowUserInfo(true)}
                   onMouseLeave={() => setShowUserInfo(false)}
@@ -150,24 +167,7 @@ const Chat = ({ userId, teamId }) => {
                   onChange={(e) => setNewMessage(e.target.value)}
                   placeholder="Napiš zprávu..."
                 />
-                <button onClick={async () => {
-                  if (newMessage.trim() === '') return;
-
-                  try {
-                    const response = await axios.post('/api/chat/send', {
-                      userId,
-                      teamId,
-                      message: newMessage,
-                      chatUserId: chatUser.id,
-                    });
-                    setMessages([...messages, response.data]);
-                    setNewMessage('');
-                  } catch (error) {
-                    console.error('Chyba při odesílání zprávy:', error);
-                  }
-                }}>
-                  Odeslat
-                </button>
+                <button onClick={handleSendMessage}>Odeslat</button>
               </div>
             </>
           ) : (
